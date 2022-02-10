@@ -69,16 +69,19 @@ export default {
       
       	//KETIKA TOMBOL LOGIN DITEKAN, MAKA AKAN MEMINCU METHODS postLogin()
         postLogin() {
-            //DIMANA TOMBOL INI AKAN MENJALANKAN FUNGSI submit() DENGAN MENGIRIMKAN DATA YANG DIBUTUHKAN
-            this.submit(this.data).then(() => {
-                //KEMUDIAN DI CEK VALUE DARI isAuth
-                //APABILA BERNILAI TRUE
-                if (this.isAuth) {
-                    this.CLEAR_ERRORS()
-                    //MAKA AKAN DI-DIRECT KE ROUTE DENGAN NAME home
-                    this.$router.push({ name: 'home' })
-                }
+            axios.get('/sanctum/csrf-cookie').then(response => {
+                //DIMANA TOMBOL INI AKAN MENJALANKAN FUNGSI submit() DENGAN MENGIRIMKAN DATA YANG DIBUTUHKAN
+                this.submit(this.data).then(() => {
+                    //KEMUDIAN DI CEK VALUE DARI isAuth
+                    //APABILA BERNILAI TRUE
+                    if (this.isAuth) {
+                        this.CLEAR_ERRORS()
+                        //MAKA AKAN DI-DIRECT KE ROUTE DENGAN NAME home
+                        this.$router.push({ name: 'home' })
+                    }
+                })
             })
+            
         }
     }
 }

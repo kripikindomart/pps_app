@@ -1,12 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
-
+namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\ApiarController as ApiarController;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Models\User;
 
-class LoginController extends Controller
+class LoginController extends ApiarController
 {
     /*
     |--------------------------------------------------------------------------
@@ -38,11 +43,32 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+            'roles' => 'required'
+        ]);
+   
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
+        }
+   
+        $input = $request->all();
+        $input['password'] = bcrypt($input['password']);
+        $user = User::create($input);
+        $success['token'] =  $user->createToken('MyApp')->plainTextToken;
+        $success['name'] =  $user->name;
+        $user->assignRole($request->input('roles'));
+   
+        return $this->sendResponse($success, 'User register successfully.');
+    }
 
 
     public function login(Request $request)
-    {
+{
     //VALIDASI EMAIL DAN PASSWORD YANG DIKIRIMKAN
     $this->validate($request, [
         'email' => 'required|email|exists:users,email',
@@ -55,13 +81,13 @@ class LoginController extends Controller
     $auth = $request->except(['remember_me']);
     
     //MELAKUKAN PROSES OTENTIKASI
-    if (auth()->attempt($auth, $request->remember_me)) {
-        //APABILA BERHASIL, GENERATE API_TOKEN MENGGUNAKAN STRING RANDOM
-        auth()->user()->update(['api_token' => Str::random(40)]);
+    if (Auth::attempt($auth, $request->remember_me)) {
+        $user = Auth::user(); 
         //KEMUDIAN KIRIM RESPONSENYA KE CLIENT UNTUK DIPROSES LEBIH LANJUT
-        return response()->json(['status' => 'success', 'data' => auth()->user()->api_token], 200);
+        return response()->json(['status' => 'success', 'data' => Auth::user()], 200);
     }
     //APABILA GAGAL, KIRIM RESPONSE LAGI KE BAHWA PERMINTAAN GAGAL
     return response()->json(['status' => 'failed']);
 }
 }
+
