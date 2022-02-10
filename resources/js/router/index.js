@@ -6,7 +6,7 @@ import registerComponent from '../views/Auth/register'
 
 Vue.use(VueRouter)
 
-const router = new VueRouter({
+const route = new VueRouter({
     mode : 'history',
     routes : [
         {
@@ -29,7 +29,7 @@ const router = new VueRouter({
 })
 
 //Navigation Guards
-router.beforeEach((to, from, next) => {
+route.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         let auth = store.getters.isAuth
         if (!auth) {
@@ -42,4 +42,4 @@ router.beforeEach((to, from, next) => {
     }
 })
 
-export default router
+export default route
