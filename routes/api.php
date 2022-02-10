@@ -16,6 +16,7 @@ use App\Http\Controllers\API\LoginController;
 
 Route::post('register', [LoginController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);
+Route::post('logout', [LoginController::class, 'logout']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('user-authenticated', [App\Http\Controllers\API\UserController::class, 'getUserLogin'])->name('user.authenticated');

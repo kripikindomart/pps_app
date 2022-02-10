@@ -96,8 +96,9 @@ class LoginController extends ApiarController
     public function logout()
     {
         auth()->user()->tokens()->delete();
-
+        Auth::logout();
         return [
+            'status'    => true,
             'message' => 'You have successfully logged out and the token was successfully deleted'
         ];
     }

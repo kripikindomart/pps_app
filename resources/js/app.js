@@ -7,6 +7,9 @@ import Permissions from './mixins/permission'
 import GlobalComponent from './globalComponents'
 import GlobalMixins from './mixins/global'
 import { mapActions, mapGetters, mapState  } from 'vuex'
+
+
+
 Vue.mixin(Permissions)
 Vue.use(GlobalComponent)
 Vue.use(GlobalMixins)

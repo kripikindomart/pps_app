@@ -1,7 +1,7 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
-$fa-font-path:        "../webfonts";
+$fa-font-path: "../webfonts";
 // Variables
 @import 'variables';
 
@@ -16,4 +16,8 @@ $fa-font-path:        "../webfonts";
 
 a {
     text-decoration: none !important;
+}
+
+button {
+    color: white !important;
 }

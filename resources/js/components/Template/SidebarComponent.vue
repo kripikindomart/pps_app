@@ -47,7 +47,10 @@
         </div> -->
 
         <!-- Sidebar Menu -->
-        <nav class="mt-2">
+        <div class="mt-2" :class="{ 'nav-open': $sidebar.showSidebar }">
+          <side-bar :sidebarLinks="sidebarLinks"> </side-bar>
+        </div>
+        <!-- <nav class="mt-2">
           <ul
             class="nav nav-pills nav-sidebar flex-column"
             data-widget="treeview"
@@ -68,7 +71,7 @@
               </a>
             </li>
           </ul>
-        </nav>
+        </nav> -->
         <!-- /.sidebar-menu -->
       </div>
       <!-- /.sidebar -->
@@ -78,12 +81,78 @@
 <script>
 import { mapState } from "vuex";
 export default {
+  data() {
+    return {
+      sidebarLinks: [
+        {
+          title: "Dashboard",
+          icon: "fa-tachometer-alt",
+          path: { name: "home" },
+        },
+        {
+          title: "Settings",
+          icon: "fa-cog",
+          path: { name: "setting" },
+          gate: "setting_access",
+          children: [
+            {
+              title: "Permission",
+              icon: "perm_data_setting",
+              path: { name: "role.permissions" },
+              gate: "permission-read",
+            },
+            {
+              title: "Role",
+              icon: "group",
+              path: { name: "roles.index" },
+              gate: "read_role",
+            },
+            {
+              title: "User",
+              icon: "person",
+              path: { name: "users.index" },
+              gate: "user-read",
+            },
+          ],
+        },
+        {
+          title: "cruds.contactManagement.title",
+          icon: "import_contacts",
+          path: { name: "contact_management" },
+          gate: "contact_management_access",
+          children: [
+            {
+              title: "cruds.contactCompany.title",
+              icon: "fas fa-building",
+              path: { name: "contact_companies.index" },
+              gate: "contact_company_access",
+            },
+            {
+              title: "cruds.contactContact.title",
+              icon: "fas fa-user-plus",
+              path: { name: "contact_contacts.index" },
+              gate: "contact_contact_access",
+            },
+          ],
+        },
+        {
+          title: "cruds.transaction.title",
+          icon: "table_view",
+          path: { name: "transactions.index" },
+          gate: "transaction_access",
+        },
+      ],
+    };
+  },
   computed: {
     ...mapState("user", {
       authenticated: (state) => state.authenticated, //ME-LOAD STATE AUTHENTICATED
     }),
   },
   methods: {
+    toggleSidebar() {
+      this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
+    },
     //KETIKA TOMBOL LOGOUT DITEKAN, FUNGSI INI DIJALANKAN
     logout() {
       return new Promise((resolve, reject) => {
@@ -95,9 +164,6 @@ export default {
         this.$router.push("/login"); //REDIRECT KE PAGE LOGIN
       });
     },
-  },
-  created() {
-    console.log(this.$router);
   },
 };
 </script>
