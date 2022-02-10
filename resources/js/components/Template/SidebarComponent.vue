@@ -54,55 +54,18 @@
             role="menu"
             data-accordion="false"
           >
-            <li v-if="$can('read outlets')">
-              <router-link :to="{ name: 'outlets.data' }">Outlets</router-link>
-            </li>
-            <li v-if="$can('read couriers')">
-              <router-link :to="{ name: 'couriers.data' }"
-                >Couriers</router-link
-              >
-            </li>
-            <li v-if="$can('read products')">
-              <router-link :to="{ name: 'products.data' }"
-                >Products</router-link
-              >
-            </li>
-
             <li class="nav-item">
               <router-link to="home" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>Dashboard</p>
               </router-link>
             </li>
-            <li class="nav-item" v-if="$can('read jadwal')">
-              <router-link :to="{ name: 'jadwal' }" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>Jadwal</p>
-              </router-link>
-            </li>
-            <li class="nav-item menu-open">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-copy"></i>
-                <p>
-                  Layout Options
-                  <i class="fas fa-angle-left right"></i>
-                  <span class="badge badge-info right">6</span>
-                </p>
+
+            <li class="nav-item">
+              <a href="javascript:void(0)" @click="logout" class="nav-link red">
+                <i class="nav-icon fa-solid fa-arrow-right-from-bracket"></i>
+                <p>Sign out</p>
               </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="../layout/top-nav.html" class="nav-link">
-                    <i class="fa fa-circle nav-icon"></i>
-                    <p>Top Navigation</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="../layout/top-nav-sidebar.html" class="nav-link">
-                    <i class="fa fa-circle nav-icon"></i>
-                    <p>Top Navigation + Sidebar</p>
-                  </a>
-                </li>
-              </ul>
             </li>
           </ul>
         </nav>
@@ -132,6 +95,9 @@ export default {
         this.$router.push("/login"); //REDIRECT KE PAGE LOGIN
       });
     },
+  },
+  created() {
+    console.log(this.$router);
   },
 };
 </script>

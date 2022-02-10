@@ -2,13 +2,13 @@
   <div class="col-md-12">
     <div class="row">
       <div class="col-md-5">
-        <div class="panel">
-          <div class="panel-heading">
-            <h3 class="panel-title">Assign Role to User</h3>
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Assign Role to User</h3>
           </div>
 
           <!-- FORM UNTUK MENAMBAHKAN ROLE KE USERS -->
-          <div class="panel-body">
+          <div class="card-body">
             <div class="alert alert-success" v-if="alert_role">
               Role Has Been Added
             </div>
@@ -51,12 +51,12 @@
         </div>
       </div>
       <div class="col-md-7">
-        <div class="panel">
-          <div class="panel-heading">
-            <h3 class="panel-title">Set Permission</h3>
+        <div class="card card-danger">
+          <div class="card-header">
+            <h3 class="card-title">Set Permission</h3>
           </div>
           <!-- FORM UNTUK MENAMBAHKAN PERMISSION KE MASING-MASING ROLE -->
-          <div class="panel-body">
+          <div class="card-body">
             <div class="form-group">
               <label for="">Role</label>
               <select class="form-control" v-model="role_selected">

@@ -7,12 +7,15 @@ use Illuminate\Http\Request;
 use App\Http\Resources\UserCollection;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
+use App\Models\Role;
 
 class UserController extends Controller
 {
     public function userLists()
     {
-        $user = User::where('role', '!=', 1)->get();
+
+        $user = User::with('roles')->get();
+        //$user = User::where('role', '!=', 1)->get();
         return new UserCollection($user);
     }
 

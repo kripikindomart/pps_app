@@ -15,16 +15,16 @@ const route = new VueRouter({
     routes : [
         {
             path : '/home',
-            name : 'dashboard',
-            component : HomeComponent,
-            meta : {requiresAuth : true}
-        },
-        {
-            path : '/',
             name : 'home',
             component : HomeComponent,
             meta : {requiresAuth : true}
         },
+        // {
+        //     path : '/',
+        //     name : 'home',
+        //     component : HomeComponent,
+        //     meta : {requiresAuth : true}
+        // },
         {
             path : '/login',
             name : 'login',
@@ -33,7 +33,7 @@ const route = new VueRouter({
         {
             path : '/register',
             name : 'register',
-            component : LoginComponent,
+            component : registerComponent,
         },
         {
             path: '/setting',
