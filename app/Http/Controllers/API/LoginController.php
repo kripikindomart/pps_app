@@ -84,7 +84,7 @@ class LoginController extends ApiarController
     if (Auth::attempt($auth, $request->remember_me)) {
         $user = Auth::user(); 
         //KEMUDIAN KIRIM RESPONSENYA KE CLIENT UNTUK DIPROSES LEBIH LANJUT
-        return response()->json(['status' => 'success', 'data' => Auth::user()], 200);
+        return response()->json(['status' => 'success', 'data' => Auth::user()->bearerToken()], 200);
     }
     //APABILA GAGAL, KIRIM RESPONSE LAGI KE BAHWA PERMINTAAN GAGAL
     return response()->json(['status' => 'failed']);

@@ -5389,18 +5389,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     postLogin: function postLogin() {
       var _this = this;
 
-      //DIMANA TOMBOL INI AKAN MENJALANKAN FUNGSI submit() DENGAN MENGIRIMKAN DATA YANG DIBUTUHKAN
-      this.submit(this.data).then(function () {
-        //KEMUDIAN DI CEK VALUE DARI isAuth
-        //APABILA BERNILAI TRUE
-        if (_this.isAuth) {
-          _this.CLEAR_ERRORS(); //MAKA AKAN DI-DIRECT KE ROUTE DENGAN NAME home
+      axios.get('/sanctum/csrf-cookie').then(function (response) {
+        //DIMANA TOMBOL INI AKAN MENJALANKAN FUNGSI submit() DENGAN MENGIRIMKAN DATA YANG DIBUTUHKAN
+        _this.submit(_this.data).then(function () {
+          //KEMUDIAN DI CEK VALUE DARI isAuth
+          //APABILA BERNILAI TRUE
+          if (_this.isAuth) {
+            _this.CLEAR_ERRORS(); //MAKA AKAN DI-DIRECT KE ROUTE DENGAN NAME home
 
 
-          _this.$router.push({
-            name: 'home'
-          });
-        }
+            _this.$router.push({
+              name: 'home'
+            });
+          }
+        });
       });
     }
   })
