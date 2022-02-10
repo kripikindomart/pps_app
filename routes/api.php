@@ -13,9 +13,16 @@ use App\Http\Controllers\API\LoginController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::post('register', [LoginController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('user-authenticated', [App\Http\Controllers\API\UserController::class, 'getUserLogin'])->name('user.authenticated');
+    Route::get('user-lists', [App\Http\Controllers\API\UserController::class, 'userLists'])->name('user.index');
+    Route::get('roles', [App\Http\Controllers\API\RolePermissionController::class, 'getAllRole'])->name('roles');
+    Route::get('permissions', [App\Http\Controllers\API\RolePermissionController::class, 'getAllPermission'])->name('permission');
+    Route::post('role-permission', [App\Http\Controllers\API\RolePermissionController::class, 'getRolePermission'])->name('role_permission');
+    Route::post('set-role-permission', [App\Http\Controllers\API\RolePermissionController::class, 'setRolePermission'])->name('set_role_permission');
+    Route::post('set-role-user', [App\Http\Controllers\API\RolePermissionController::class, 'setRoleUser'])->name('user.set_role');
 });

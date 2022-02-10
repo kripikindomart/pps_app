@@ -1,4 +1,4 @@
-import $axios from '../api.js'
+import $axios from "../api"
 
 const state = () => ({
 
@@ -10,6 +10,7 @@ const mutations = {
 
 const actions = {
     submit({ commit }, payload) {
+        
         localStorage.setItem('token', null) //RESET LOCAL STORAGE MENJADI NULL
         commit('SET_TOKEN', null, { root: true }) //RESET STATE TOKEN MENJADI NULL
         //KARENA MUTATIONS SET_TOKEN BERADA PADA ROOT STORES, MAKA DITAMBAHKAN PARAMETER
@@ -18,13 +19,16 @@ const actions = {
         //KITA MENGGUNAKAN PROMISE AGAR FUNGSI SELANJUTNYA BERJALAN KETIKA FUNGSI INI SELESAI
         return new Promise((resolve, reject) => {
             //MENGIRIM REQUEST KE SERVER DENGAN URI /login 
-            //DAN PAYLOAD ADALAH DATA YANG DIKIRIMKAN DARI COMPONENT LOGIN.VUE
+            //DAN PAYLOAD ADALAH DATA YANG DIKIRIMKAN DARI COMPONENT LOGIN.VUE]
+            
             $axios.post('/login', payload)
             .then((response) => {
+                
                 //KEMUDIAN JIKA RESPONNYA SUKSES
                 if (response.data.status == 'success') {
                     //MAKA LOCAL STORAGE DAN STATE TOKEN AKAN DISET MENGGUNAKAN
                     //API DARI SERVER RESPONSE
+                    
                     localStorage.setItem('token', response.data.data)
                     commit('SET_TOKEN', response.data.data, { root: true })
                 } else {
@@ -34,10 +38,16 @@ const actions = {
                 resolve(response.data)
             })
             .catch((error) => {
-                if (error.response.status == 422) {
+                if (error.response.status === 422) {
                     commit('SET_ERRORS', error.response.data.errors, { root: true })
+                } else {
+                    commit('SET_ERRORS', 'Error pada saat login', { root: true })
                 }
+                    
+               
             })
+
+            
         })
     }
 }
