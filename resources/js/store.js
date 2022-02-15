@@ -3,11 +3,11 @@ import Vuex from 'vuex'
 
 //IMPORT MODULE SECTION
 import auth from './stores/auth.js'
- import user from './stores/user.js'
+import user from './stores/user.js'
 Vue.use(Vuex)
 
 //DEFINE ROOT STORE VUEX
-const store = new Vuex.Store({
+export default new Vuex.Store({
     //SEMUA MODULE YANG DIBUAT AKAN DITEPATKAN DIDALAM BAGIAN INI DAN DIPISAHKAN DENGAN KOMA UNTUK SETIAP MODULE-NYA
     modules: {
         auth,
@@ -25,7 +25,11 @@ const store = new Vuex.Store({
         //STATE token.
         isAuth: state => {
             return state.token != "null" && state.token != null
-        }
+        },
+
+       
+
+
     },
     mutations: {
         //SEBUAH MUTATIONS YANG BERFUNGSI UNTUK MEMANIPULASI VALUE DARI STATE token
@@ -41,4 +45,4 @@ const store = new Vuex.Store({
     }
 })
 
-export default store
+ 

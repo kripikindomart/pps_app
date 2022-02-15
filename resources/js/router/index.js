@@ -44,7 +44,7 @@ const route = new VueRouter({
                     path: 'role-permission',
                     name: 'role.permissions',
                     component: SetPermission,
-                    meta: { title: 'Set Permissions' }
+                    meta: { title: 'Set Permissions', requiresAuth: true }
                 },
             ]
         }

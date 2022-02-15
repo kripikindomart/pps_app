@@ -1,6 +1,20 @@
 <template>
   <div class="col-md-12">
-    <div class="row">
+    <div class="error-page" v-if="!$can('setting_access')">
+      <h2 class="headline text-warning">401</h2>
+      <div class="error-content">
+        <h3>
+          <i class="fas fa-exclamation-triangle text-warning"></i> UNAUTHORIZED
+          !
+        </h3>
+        <p>
+          Anda tidak memiliki Otoritas ke halaman ini Kembali Ke
+          <router-link :to="{ name: 'home' }">Dashboard</router-link>
+        </p>
+      </div>
+    </div>
+
+    <div class="row" v-if="$can('setting_access')">
       <div class="col-md-5">
         <div class="card card-primary">
           <div class="card-header">
@@ -147,7 +161,7 @@ export default {
     this.getUserLists(); //DATA USERS
   },
   computed: {
-    ...mapState(["errors"]), //ME-LOAD STATE ERRORS
+    ...mapState(["errors"], { errors: (state) => state.errors }), //ME-LOAD STATE ERRORS
     ...mapState("user", {
       users: (state) => state.users, //ME-LOAD STATE USERS
       roles: (state) => state.roles, //ME-LOAD STATE ROLES
@@ -189,13 +203,16 @@ export default {
     addPermission(name) {
       //DICEK KE NEW_PERMISSION BERDASARKAN NAME
       let index = this.new_permission.findIndex((x) => x == name);
+      //let index = this.new_permission.find((el) => el.name == name);
       //APABIL TIDAK TERSEDIA, INDEXNYA -1
-      if (index == -1) {
+      if (index) {
+        this.new_permission.splice(this.new_permission.indexOf(index), 1);
         //MAKA TAMBAHKAN KE LIST
         this.new_permission.push(name);
       } else {
+        this.new_permission.push({ name });
         //JIKA SUDAH ADA, MAKA HAPUS DARI LIST
-        this.new_permission.splice(index, 1);
+        //this.new_permission.splice(index, 1);
       }
     },
     //KETIKA TOMBOL CHECK DITEKAN, MAKA FUNGSI INI BERJALAN

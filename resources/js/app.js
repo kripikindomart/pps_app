@@ -33,15 +33,26 @@ const app = new Vue({
     ...mapGetters(['isAuth']),
     ...mapState(['token']),
     ...mapState('user', {
-            user_authenticated: state => state.authenticated
+            user_authenticated: state => state.authenticated,
+
         })
     },
     methods: {
-        ...mapActions('user', ['getUserLogin'])
+        ...mapActions('user', ['getUserLogin']),
+        initialLister() {
+            if (this.isAuth) {
+                this.getUserLogin() 
+                
+            }
+        }
+    },
+    watch: {
+      isAuth(){
+          this.initialLister()
+      }
     },
     created() {
-        if (this.isAuth) {
-            this.getUserLogin() //REQUEST DATA YANG SEDANG LOGIN
-        }
+         this.getUserLogin() 
+        
     }
 });

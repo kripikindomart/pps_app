@@ -7,13 +7,16 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use DB;
+use Gate;
 use App\Models\User;
+use Illuminate\Http\Response;
 
 class RolePermissionController extends Controller
 {
     //METHOD INI UNTUK MENGAMBIL SEMUA ROLE YANG TERSEDIA
     public function getAllRole()
     {
+        abort_if(Gate::denies('setting_access'), Response::HTTP_FORBIDDEN, '403');
         $roles = Role::all();
         return response()->json(['status' => 'success', 'data' => $roles]);
     }
@@ -45,11 +48,17 @@ class RolePermissionController extends Controller
         ]);
 
         $role = Role::find($request->role_id); //AMBIL ROLE BERDASARKAN ID
-        $role->syncPermissions($request->permissions); //SET PERMISSION UNTUK ROLE TERSEBUT
+        //SET PERMISSION UNTUK ROLE TERSEBUT
+        if ($role->syncPermissions($request->permissions)) {
+
+            return response()->json(['status' => $request->permissions]);
+        } else {
+            return response()->json(['status' => 'Gagal']);
+        }
         //syncPermissions BEKERJA CARA MENGHAPUS SEMUA ROLE YANG DIMILIKI, KEMUDIAN
         //MENYIMPAN DATA YANG BARU
         //PARAMETER PERMISSIONS ADALAH ARRAY YANG BERISI NAME PERMISSIONS
-        return response()->json(['status' => 'success']);
+
     }
 
     //UNTUK MENGATUR ROLE SETIAP USER

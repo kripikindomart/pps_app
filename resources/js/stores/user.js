@@ -1,11 +1,12 @@
 import $axios from '../api.js'
-
+const route = ''
 const state = () => ({
     users: [], //MENAMPUNG LIST USER
     roles: [], //MENAMPUNG LIST ROLES
     permissions: [], //MENAMPUNG LIST PERMISSION
     role_permission: [], //MENAMPUNG PERMISSION YANG DIMILIKI OLEH ROLE
-    authenticated: [] //MENAMPUNG USER YANG SEDANG LOGIN
+    authenticated: [], //MENAMPUNG USER YANG SEDANG LOGIN
+    // permission : []
 })
 
 const mutations = {
@@ -21,6 +22,9 @@ const mutations = {
     ASSIGN_ROLE_PERMISSION(state, payload) {
         state.role_permission = payload
     },
+    // ASSIGN_PERMISSION(state, payload) {
+    //     state.permission = payload
+    // },
     CLEAR_ROLE_PERMISSION(state, payload) {
         state.role_permission = []
     },
@@ -69,6 +73,11 @@ const actions = {
                 commit('ASSIGN_ROLES', response.data.data)
                 resolve(response.data)
             })
+            .catch((error) => {
+                if (error.response.status == 403) {
+                    commit('SET_ERRORS', 'Anda tidak memiliki Otorisasi ke halaman ini', { root: true })
+                }
+            })
         })
     },
     //MENGAMBIL LIST PERMISSIONS
@@ -96,6 +105,20 @@ const actions = {
             })
         })
     },
+
+    // getPermission({ commit }, payload) {
+    //     return new Promise((resolve, reject) => {
+    //         commit('CLEAR_ERRORS', '', {root: true}) //BERSIHKAN STATE ERRORS
+    //         //KIRIM PERMINTAAN KE BACKEND BERDASARKAN ROLE_ID
+    //         $axios.post(`/role-permission`, {role_id: payload})
+    //         .then((response) => {
+    //             //SIMPAN DATANYA DENGAN MUTATIONS
+    //             commit('ASSIGN_PERMISSION', response.data.data)
+    //             resolve(response.data)
+    //         })
+    //     })
+    // },
+
     //BERFUNGSI UNTUK MENGATUR PERMISSION SETIAP ROLEH YANG DIPILIH
     setRolePermission({ commit }, payload) {
         return new Promise((resolve, reject) => {

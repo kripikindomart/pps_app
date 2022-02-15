@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <section class="content-header">
-      <h1>Settings Page</h1>
+      <h1>{{ $can("setting_access") ? "Settings Page" : "Error Page" }}</h1>
     </section>
 
     <section class="content container">
