@@ -43,7 +43,7 @@ const route = new VueRouter({
             meta: { requiresAuth: true },
             children: [
                 {
-                    path: 'role-permission',
+                    path: '/role-permission',
                     name: 'role.permissions',
                     component: SetPermission,
                     meta: { title: 'Set Permissions', requiresAuth: true }

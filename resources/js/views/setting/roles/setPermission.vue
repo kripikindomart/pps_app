@@ -28,28 +28,8 @@
             </div>
             <div class="form-group">
               <label for="">Role</label>
-              <v-select
-                v-model="selected"
-                multipe
-                :reduce="(option) => option.id"
-                :options="[
-                  { label: 'One', id: 1 },
-                  { label: 'Two', id: 2 },
-                ]"
-              />
-              <v-select
-                      name="permissions"
-                      label="title"
-                      v-for="(row, index) in roles"
-                      :value="row.name"
-                      :options="index"
-                      :key="'permissions-field'"
-                      :closeOnSelect="false"
-                      multiple
-                      @input="updatePermissions"
-                      @search.focus="focusField('permissions')"
-                      @search.blur="clearFocus"
-                    />
+              
+              
               <select class="form-control" v-model="role_user.role" @change="changeAdmin()">
                 <option value="">Pilih</option>
                 <option

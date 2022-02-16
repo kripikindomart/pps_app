@@ -104,8 +104,8 @@ export default {
             {
               title: "Role",
               icon: "group",
-              path: { name: "roles.index" },
-              gate: "read_role",
+              path: { name: "role" },
+              gate: "role-read",
             },
             {
               title: "User",

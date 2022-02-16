@@ -1,64 +1,76 @@
 <template>
     <div class="row">
-        <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-            <h3 class="card-title">Responsive Hover Table</h3>
-
-            <div class="card-tools">
-                
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal-add">
-                <i class="fas fa-user-plus fa-fw"></i> Tambah Role
-                </button>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Tambah</h3>
+                            </div>
+                            
+​
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="name">Role</label>
+                                    <input  v-model="form.roleName" type="text" class="form-control" :class="{'is-invalid' : form.errors.has('roleName')}" id="Role" placeholder="Role Name">
+                                 <has-error :form="form" field="roleName"  ></has-error>
+                                </div>
+                           
+                                <div class="card-footer">
+                                    <button class="btn btn-primary"  @click="addData" >Simpan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">List</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>Role</td>
+                                            <td>Guard</td>
+                                            <td>Created At</td>
+                                            <td>Aksi</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                       
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <form action="" method="POST">
+                                                  
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                       
+                                        <tr>
+                                            <td colspan="5" class="text-center">Tidak ada data</td>
+                                        </tr>
+                                       
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+​
+                            <div class="float-right">
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body table-responsive p-0">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>Role</th>
-                    <th>Action</th>
-                    
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="item in roles" :key="item.message">
-                  <td>{{item.role}}</td>
-                  <td>
-                       <a href="" class="btn btn-warning"> <i class="fas fa-edit"></i> Edit</a>
-                        <a href="" class="btn btn-danger"> <i class="fas fa-trash"></i> Delete </a>
-                  </td>
-                </tr>
-                
-                </tbody>
-            </table>
-            </div>
-            <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-        </div>
-        <!-- Modal -->
-        <!-- Button trigger modal -->
-
-        <!-- Modal -->
-        <div class="modal fade" id="modal-add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-            </div>
-        </div>
-        </div>
     </div>
 
 
@@ -69,11 +81,20 @@
 <script>
 
 export default {
-   data(){
+   data() {
        return {
-           roles : {}
-    }
-   },
+        form : new Form({
+            id: '',
+            roleName : '',
+        }), 
+        loading : false,  
+        data :{},
+        message :{},
+        addModal : false, 
+        editModal : false, 
+        isAdding : false, 
+       }
+    },
    methods : {
        loadData(){
            axios.get('api/role').then(({data}) => (this.roles = data))
