@@ -51,7 +51,7 @@ class RolePermissionController extends Controller
         //SET PERMISSION UNTUK ROLE TERSEBUT
         if ($role->syncPermissions($request->permissions)) {
 
-            return response()->json(['status' => $request->permissions]);
+            return response()->json(['status' => 'success']);
         } else {
             return response()->json(['status' => 'Gagal']);
         }

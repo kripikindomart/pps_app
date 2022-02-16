@@ -28,7 +28,29 @@
             </div>
             <div class="form-group">
               <label for="">Role</label>
-              <select class="form-control" v-model="role_user.role">
+              <v-select
+                v-model="selected"
+                multipe
+                :reduce="(option) => option.id"
+                :options="[
+                  { label: 'One', id: 1 },
+                  { label: 'Two', id: 2 },
+                ]"
+              />
+              <v-select
+                      name="permissions"
+                      label="title"
+                      v-for="(row, index) in roles"
+                      :value="row.name"
+                      :options="index"
+                      :key="'permissions-field'"
+                      :closeOnSelect="false"
+                      multiple
+                      @input="updatePermissions"
+                      @search.focus="focusField('permissions')"
+                      @search.blur="clearFocus"
+                    />
+              <select class="form-control" v-model="role_user.role" @change="changeAdmin()">
                 <option value="">Pilih</option>
                 <option
                   v-for="(row, index) in roles"
@@ -201,19 +223,21 @@ export default {
     },
     //KETIKA LIST PERMISSION DI CENTANG, MAKA FUNGSI INI BERJALAN
     addPermission(name) {
-      //DICEK KE NEW_PERMISSION BERDASARKAN NAME
-      let index = this.new_permission.findIndex((x) => x == name);
-      //let index = this.new_permission.find((el) => el.name == name);
-      //APABIL TIDAK TERSEDIA, INDEXNYA -1
-      if (index) {
-        this.new_permission.splice(this.new_permission.indexOf(index), 1);
-        //MAKA TAMBAHKAN KE LIST
-        this.new_permission.push(name);
+      let index = this.new_permission.findIndex(x => x == name)
+      if (index == -1) {
+          this.new_permission.push(name)
       } else {
-        this.new_permission.push({ name });
-        //JIKA SUDAH ADA, MAKA HAPUS DARI LIST
-        //this.new_permission.splice(index, 1);
+          this.new_permission.splice(index, 1)
       }
+    },
+    changeAdmin() {
+      alert('OK')
+      this.getRolePermission(this.role_selected).then(() => {
+        //APABILA BERHASIL, MATIKAN LOADING
+        this.loading = false;
+        //PERMISSION YANG TELAH DIASSIGN AKAN DI MERGE KE NEW_PERMISSION
+        this.new_permission = this.role_permission;
+      });
     },
     //KETIKA TOMBOL CHECK DITEKAN, MAKA FUNGSI INI BERJALAN
     //FUNGSI INI UNTUK MENGAMBIL LIST PERMISSION YANG TELAH DI ASSIGN

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Models\Karyawan;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class KaryawanController extends Controller
+class PejabatController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class KaryawanController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Karyawan  $karyawan
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Karyawan $karyawan)
+    public function show($id)
     {
         //
     }
@@ -52,10 +52,10 @@ class KaryawanController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Karyawan  $karyawan
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Karyawan $karyawan)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +64,10 @@ class KaryawanController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Karyawan  $karyawan
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Karyawan $karyawan)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +75,10 @@ class KaryawanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Karyawan  $karyawan
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Karyawan $karyawan)
+    public function destroy($id)
     {
         //
     }

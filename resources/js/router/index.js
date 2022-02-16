@@ -5,6 +5,8 @@ import LoginComponent from '../views/Auth/login'
 import registerComponent from '../views/Auth/register'
 import Setting from '../views/setting/Index.vue'
 import SetPermission from '../views/setting/roles/SetPermission.vue'
+import Permission from '../views/setting/roles/Permission.vue'
+import Role from '../views/setting/roles/Role.vue'
 import store from '../store.js'
 
 
@@ -45,6 +47,18 @@ const route = new VueRouter({
                     name: 'role.permissions',
                     component: SetPermission,
                     meta: { title: 'Set Permissions', requiresAuth: true }
+                },
+                {
+                    path: '/role',
+                    name: 'role',
+                    component: Role,
+                    meta: { title: 'Set Role', requiresAuth: true }
+                },
+                {
+                    path: '/permission',
+                    name: 'permissions',
+                    component: Permission,
+                    meta: { title: 'Permissions', requiresAuth: true }
                 },
             ]
         }

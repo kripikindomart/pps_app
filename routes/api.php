@@ -3,6 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\LoginController;
+use App\Http\Controllers\API\DepartementController;
+use App\Http\Controllers\API\KaryawanController;
+use App\Http\Controllers\API\PejabatController;
+use App\Http\Controllers\API\ProgramStudiController;
+use App\Http\Controllers\API\StudentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,6 +24,9 @@ Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LoginController::class, 'logout']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    
+
+    //Permission Setting
     Route::get('user-authenticated', [App\Http\Controllers\API\UserController::class, 'getUserLogin'])->name('user.authenticated');
     Route::get('user-lists', [App\Http\Controllers\API\UserController::class, 'userLists'])->name('user.index');
     Route::get('roles', [App\Http\Controllers\API\RolePermissionController::class, 'getAllRole'])->name('roles');

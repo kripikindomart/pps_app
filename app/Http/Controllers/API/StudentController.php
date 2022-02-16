@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Models\Pengajar;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class PengajarController extends Controller
+class StudentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class PengajarController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Pengajar  $pengajar
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Pengajar $pengajar)
+    public function show($id)
     {
         //
     }
@@ -52,10 +52,10 @@ class PengajarController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Pengajar  $pengajar
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pengajar $pengajar)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +64,10 @@ class PengajarController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pengajar  $pengajar
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pengajar $pengajar)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +75,10 @@ class PengajarController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Pengajar  $pengajar
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pengajar $pengajar)
+    public function destroy($id)
     {
         //
     }

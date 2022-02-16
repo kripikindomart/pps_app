@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Models\Program_studi;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ProgramStudiController extends Controller
+class KaryawanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class ProgramStudiController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Program_studi  $program_studi
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Program_studi $program_studi)
+    public function show($id)
     {
         //
     }
@@ -52,10 +52,10 @@ class ProgramStudiController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Program_studi  $program_studi
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Program_studi $program_studi)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +64,10 @@ class ProgramStudiController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Program_studi  $program_studi
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Program_studi $program_studi)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +75,10 @@ class ProgramStudiController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Program_studi  $program_studi
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Program_studi $program_studi)
+    public function destroy($id)
     {
         //
     }
