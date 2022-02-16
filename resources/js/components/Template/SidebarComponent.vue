@@ -92,7 +92,7 @@ export default {
         {
           title: "Settings",
           icon: "fa-cog",
-          path: { name: "setting" },
+          path: { name: "setting_access" },
           gate: "setting_access",
           children: [
             {

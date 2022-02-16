@@ -5497,7 +5497,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         title: "Settings",
         icon: "fa-cog",
         path: {
-          name: "setting"
+          name: "setting_access"
         },
         gate: "setting_access",
         children: [{
@@ -6055,6 +6055,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -6135,6 +6142,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -6146,23 +6155,27 @@ __webpack_require__.r(__webpack_exports__);
       data: {},
       message: {},
       addModal: false,
-      editModal: false,
+      editMode: false,
       isAdding: false
     };
   },
-  methods: {
-    loadData: function loadData() {
-      var _this = this;
-
-      axios.get('api/role').then(function (_ref) {
-        var data = _ref.data;
-        return _this.roles = data;
-      });
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)("user", ["getRoles", "getAllPermission"])), {}, {
+    addData: function addData() {
+      this.getRoles();
     }
-  },
+  }),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(["errors"], {
+    errors: function errors(state) {
+      return state.errors;
+    }
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)("user", {
+    roles: function roles(state) {
+      return state.roles;
+    } //ME-LOAD STATE ROLES
+
+  })),
   created: function created() {
-    this.loadData();
-    console.log(this.loadData());
+    this.getRoles();
   }
 });
 
@@ -6832,11 +6845,12 @@ var route = new vue_router__WEBPACK_IMPORTED_MODULE_9__["default"]({
   }, {
     path: '/setting',
     component: _views_setting_Index_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    name: 'setting_access',
     meta: {
       requiresAuth: true
     },
     children: [{
-      path: '/role-permission',
+      path: 'setting/role-permission',
       name: 'role.permissions',
       component: _views_setting_roles_SetPermission_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
       meta: {
@@ -44480,7 +44494,39 @@ var render = function () {
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-4" }, [
           _c("div", { staticClass: "card card-primary" }, [
-            _vm._m(0),
+            _c("div", { staticClass: "card-header" }, [
+              _c(
+                "h3",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.editMode,
+                      expression: "!editMode",
+                    },
+                  ],
+                  staticClass: "card-title",
+                },
+                [_vm._v("Tambah")]
+              ),
+              _vm._v(" "),
+              _c(
+                "h3",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.editMode,
+                      expression: "editMode",
+                    },
+                  ],
+                  staticClass: "card-title",
+                },
+                [_vm._v("Edit Data")]
+              ),
+            ]),
             _vm._v(
               "\n                            \n​\n                            "
             ),
@@ -44529,17 +44575,110 @@ var render = function () {
                 _c(
                   "button",
                   {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.editMode,
+                        expression: "!editMode",
+                      },
+                    ],
                     staticClass: "btn btn-primary",
                     on: { click: _vm.addData },
                   },
                   [_vm._v("Simpan")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.editMode,
+                        expression: "editMode",
+                      },
+                    ],
+                    staticClass: "btn btn-primary",
+                    on: { click: _vm.addData },
+                  },
+                  [_vm._v("Update Data")]
                 ),
               ]),
             ]),
           ]),
         ]),
         _vm._v(" "),
-        _vm._m(1),
+        _c("div", { staticClass: "col-md-8" }, [
+          _c("div", { staticClass: "card card-primary" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "table-responsive" }, [
+                _c("table", { staticClass: "table table-hover" }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    [
+                      _vm._l(_vm.roles, function (row, i) {
+                        return _c("tr", { key: i }, [
+                          _c("td", [_vm._v(_vm._s(i + 1))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(row.name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(row.guard_name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(row.created_at))]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _c(
+                                "router-link",
+                                {
+                                  staticClass:
+                                    "btn btn-icon icon-left btn-success btn-sm white",
+                                  attrs: { to: { name: "role.permissions" } },
+                                },
+                                [
+                                  _c("i", { staticClass: "fas fa-check" }),
+                                  _vm._v(" Access"),
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _vm._m(2, true),
+                              _vm._v(" "),
+                              _vm._m(3, true),
+                            ],
+                            1
+                          ),
+                        ])
+                      }),
+                      _vm._v(" "),
+                      !_vm.roles.length
+                        ? _c("tr", [
+                            _c(
+                              "td",
+                              {
+                                staticClass: "text-center",
+                                attrs: { colspan: "5" },
+                              },
+                              [_vm._v("Tidak ada data")]
+                            ),
+                          ])
+                        : _vm._e(),
+                    ],
+                    2
+                  ),
+                ]),
+              ]),
+            ]),
+            _vm._v("\n​\n                            "),
+            _c("div", { staticClass: "float-right" }),
+          ]),
+        ]),
       ]),
     ]),
   ])
@@ -44550,78 +44689,49 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [_vm._v("Tambah")]),
+      _c("h3", { staticClass: "card-title" }, [_vm._v("List")]),
     ])
   },
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-8" }, [
-      _c("div", { staticClass: "card card-primary" }, [
-        _c("div", { staticClass: "card-header" }, [
-          _c("h3", { staticClass: "card-title" }, [_vm._v("List")]),
-        ]),
+    return _c("thead", [
+      _c("tr", [
+        _c("td", [_vm._v("#")]),
         _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c("div", { staticClass: "table-responsive" }, [
-            _c("table", { staticClass: "table table-hover" }, [
-              _c("thead", [
-                _c("tr", [
-                  _c("td", [_vm._v("#")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Role")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Guard")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Created At")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Aksi")]),
-                ]),
-              ]),
-              _vm._v(" "),
-              _c("tbody", [
-                _c("tr", [
-                  _c("td"),
-                  _vm._v(" "),
-                  _c("td"),
-                  _vm._v(" "),
-                  _c("td"),
-                  _vm._v(" "),
-                  _c("td"),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("form", { attrs: { action: "", method: "POST" } }, [
-                      _c("input", {
-                        attrs: {
-                          type: "hidden",
-                          name: "_method",
-                          value: "DELETE",
-                        },
-                      }),
-                      _vm._v(" "),
-                      _c("button", { staticClass: "btn btn-danger btn-sm" }, [
-                        _c("i", { staticClass: "fa fa-trash" }),
-                      ]),
-                    ]),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c(
-                    "td",
-                    { staticClass: "text-center", attrs: { colspan: "5" } },
-                    [_vm._v("Tidak ada data")]
-                  ),
-                ]),
-              ]),
-            ]),
-          ]),
-        ]),
-        _vm._v("\n​\n                            "),
-        _c("div", { staticClass: "float-right" }),
+        _c("td", [_vm._v("Role")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Guard")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Created At")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Aksi")]),
       ]),
     ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-icon icon-left btn-primary btn-sm",
+        attrs: { "data-bs-toggle": "modal", "data-bs-target": "#exampleModal" },
+      },
+      [_c("i", { staticClass: "far fa-edit" }), _vm._v(" Edit")]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      { staticClass: "btn btn-icon icon-left btn-danger btn-sm" },
+      [_c("i", { staticClass: "fas fa-times" }), _vm._v(" Delete")]
+    )
   },
 ]
 render._withStripped = true

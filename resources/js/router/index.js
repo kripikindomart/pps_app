@@ -40,10 +40,11 @@ const route = new VueRouter({
         {
             path: '/setting',
             component: Setting,
+            name : 'setting_access',
             meta: { requiresAuth: true },
             children: [
                 {
-                    path: '/role-permission',
+                    path: 'setting/role-permission',
                     name: 'role.permissions',
                     component: SetPermission,
                     meta: { title: 'Set Permissions', requiresAuth: true }

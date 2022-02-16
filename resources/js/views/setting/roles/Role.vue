@@ -5,7 +5,8 @@
                     <div class="col-md-4">
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Tambah</h3>
+                                <h3 class="card-title" v-show="!editMode">Tambah</h3>
+                                <h3 class="card-title" v-show="editMode">Edit Data</h3>
                             </div>
                             
 ​
@@ -17,7 +18,8 @@
                                 </div>
                            
                                 <div class="card-footer">
-                                    <button class="btn btn-primary"  @click="addData" >Simpan</button>
+                                    <button class="btn btn-primary"  @click="addData" v-show="!editMode">Simpan</button>
+                                    <button class="btn btn-primary"  @click="addData" v-show="editMode">Update Data</button>
                                 </div>
                             </div>
                         </div>
@@ -41,21 +43,20 @@
                                     </thead>
                                     <tbody>
                                        
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                        <tr v-for="(row, i) in roles" :key="i">
+                                            <td>{{i+1}}</td>
+                                            <td>{{row.name}}</td>
+                                            <td>{{row.guard_name}}</td>
+                                            <td>{{row.created_at}}</td>
                                             <td>
-                                                <form action="" method="POST">
                                                   
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                                </form>
+                                <router-link :to="{ name:'role.permissions' }" class="btn btn-icon icon-left btn-success btn-sm white"><i class="fas fa-check"></i> Access</router-link>
+                                <button   class="btn btn-icon icon-left btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="far fa-edit"></i> Edit</button>
+                                <button  class="btn btn-icon icon-left btn-danger btn-sm"><i class="fas fa-times"></i> Delete</button> 
                                             </td>
                                         </tr>
                                        
-                                        <tr>
+                                        <tr v-if="!roles.length">
                                             <td colspan="5" class="text-center">Tidak ada data</td>
                                         </tr>
                                        
@@ -79,7 +80,7 @@
 
 </template>
 <script>
-
+import { mapActions, mapState, mapMutations } from "vuex";
 export default {
    data() {
        return {
@@ -91,18 +92,28 @@ export default {
         data :{},
         message :{},
         addModal : false, 
-        editModal : false, 
+        editMode : false, 
         isAdding : false, 
        }
     },
    methods : {
-       loadData(){
-           axios.get('api/role').then(({data}) => (this.roles = data))
+        ...mapActions("user", [
+           "getRoles",
+           "getAllPermission",
+    ]),
+       addData(){
+           this.getRoles()
        }
    },
+   computed: {
+    ...mapState(["errors"], { errors: (state) => state.errors }), //ME-LOAD STATE ERRORS
+    ...mapState("user", {
+      roles: (state) => state.roles, //ME-LOAD STATE ROLES
+    }),
+  },
    created(){
-       this.loadData();
-       console.log(this.loadData())
+       this.getRoles();
+       
    }
    
 }
