@@ -147,7 +147,27 @@ const actions = {
                 resolve(response.data)
             })
         })
-    }
+    },
+
+    //BERFUNGSI UNTUK MENGATUR PERMISSION SETIAP ROLEH YANG DIPILIH
+    addRole({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            commit('CLEAR_ERRORS', '', {root: true})
+            //KIRIM PERMINTAAN KE BACKEND
+            $axios.post(`/role`, payload)
+            .then((response) => {
+                resolve(response.data)
+            })
+            .catch((error) => {
+                //APABILA TERJADI ERROR VALIDASI
+                if (error.response.status == 422) {
+                    //SET ERRORNYA AGAR DAPAT DITAMPILKAN
+                    commit('SET_ERRORS', error.response.data.errors, { root: true })
+                }
+            })
+        })
+    },
+
 }
 
 export default {

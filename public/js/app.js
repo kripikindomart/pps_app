@@ -6159,7 +6159,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isAdding: false
     };
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)("user", ["getRoles", "getAllPermission"])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)("user", ["getRoles", "getAllPermission", "addRole"])), {}, {
     addData: function addData() {
       this.getRoles();
     }
@@ -7211,6 +7211,27 @@ var actions = {
         //SIMPAN DATA USER TERSEBUT
         commit('ASSIGN_USER_AUTH', response.data.data);
         resolve(response.data);
+      });
+    });
+  },
+  //BERFUNGSI UNTUK MENGATUR PERMISSION SETIAP ROLEH YANG DIPILIH
+  addRole: function addRole(_ref8, payload) {
+    var commit = _ref8.commit;
+    return new Promise(function (resolve, reject) {
+      commit('CLEAR_ERRORS', '', {
+        root: true
+      }); //KIRIM PERMINTAAN KE BACKEND
+
+      _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].post("/role", payload).then(function (response) {
+        resolve(response.data);
+      })["catch"](function (error) {
+        //APABILA TERJADI ERROR VALIDASI
+        if (error.response.status == 422) {
+          //SET ERRORNYA AGAR DAPAT DITAMPILKAN
+          commit('SET_ERRORS', error.response.data.errors, {
+            root: true
+          });
+        }
       });
     });
   }

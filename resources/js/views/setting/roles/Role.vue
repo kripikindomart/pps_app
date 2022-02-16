@@ -100,6 +100,7 @@ export default {
         ...mapActions("user", [
            "getRoles",
            "getAllPermission",
+           "addRole"
     ]),
        addData(){
            this.getRoles()
