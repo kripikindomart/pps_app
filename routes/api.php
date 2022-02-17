@@ -8,6 +8,7 @@ use App\Http\Controllers\API\KaryawanController;
 use App\Http\Controllers\API\PejabatController;
 use App\Http\Controllers\API\ProgramStudiController;
 use App\Http\Controllers\API\StudentController;
+use App\Http\Controllers\API\RoleController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,7 +26,11 @@ Route::post('logout', [LoginController::class, 'logout']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     
+    Route::apiResources([
+            'role' => RoleController::class,
+    ]);
 
+    
     //Permission Setting
     Route::get('user-authenticated', [App\Http\Controllers\API\UserController::class, 'getUserLogin'])->name('user.authenticated');
     Route::get('user-lists', [App\Http\Controllers\API\UserController::class, 'userLists'])->name('user.index');

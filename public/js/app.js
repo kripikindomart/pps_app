@@ -6143,6 +6143,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -6156,12 +6159,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       message: {},
       addModal: false,
       editMode: false,
-      isAdding: false
+      isAdding: false,
+      alert_role: false
     };
   },
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)("user", ["getRoles", "getAllPermission", "addRole"])), {}, {
     addData: function addData() {
-      this.getRoles();
+      var _this = this;
+
+      this.addRole(this.form).then(function () {
+        _this.alert_role = true; //AKTIFKAN ALERT JIKA BERHASIL
+
+        setTimeout(function () {
+          //BEBERAPA DETIK KEMUDIAN, SET DEFAULT ROLE USER
+          _this.form.clear(); //MATIKAN ALERT
+
+
+          _this.alert_role = false;
+        }, 1000);
+      });
     }
   }),
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(["errors"], {
@@ -44588,6 +44604,16 @@ var render = function () {
                   _c("has-error", {
                     attrs: { form: _vm.form, field: "roleName" },
                   }),
+                  _vm._v(" "),
+                  _vm.errors.roleName
+                    ? _c("p", { staticClass: "text-danger" }, [
+                        _vm._v(
+                          "\n                                    " +
+                            _vm._s(_vm.errors.roleName[0]) +
+                            "\n                                "
+                        ),
+                      ])
+                    : _vm._e(),
                 ],
                 1
               ),

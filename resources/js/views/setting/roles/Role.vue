@@ -15,6 +15,9 @@
                                     <label for="name">Role</label>
                                     <input  v-model="form.roleName" type="text" class="form-control" :class="{'is-invalid' : form.errors.has('roleName')}" id="Role" placeholder="Role Name">
                                  <has-error :form="form" field="roleName"  ></has-error>
+                                 <p class="text-danger" v-if="errors.roleName">
+                                    {{ errors.roleName[0] }}
+                                </p>
                                 </div>
                            
                                 <div class="card-footer">
@@ -94,6 +97,7 @@ export default {
         addModal : false, 
         editMode : false, 
         isAdding : false, 
+        alert_role : false,
        }
     },
    methods : {
@@ -103,7 +107,16 @@ export default {
            "addRole"
     ]),
        addData(){
-           this.getRoles()
+          this.addRole(this.form).then(() => {
+            
+            this.alert_role = true; //AKTIFKAN ALERT JIKA BERHASIL
+            setTimeout(() => {
+            //BEBERAPA DETIK KEMUDIAN, SET DEFAULT ROLE USER
+            this.form.clear()
+            //MATIKAN ALERT
+            this.alert_role = false;
+            }, 1000);
+        });
        }
    },
    computed: {

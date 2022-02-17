@@ -4,6 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use App\Models\User;
+use Illuminate\Http\Response;
 
 class RoleController extends Controller
 {
@@ -35,7 +38,12 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'roleName' => 'required|string|max:50'
+        ]);
+        $role = Role::firstOrCreate(['name' => $request->roleName]);
+        if($role) return response()->json(['status' => 'success', 'message' => $role]);
+        return response()->json(['status' => 'failed', 'message' => 'Role gagal di simpan']);
     }
 
     /**
