@@ -6167,17 +6167,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     addData: function addData() {
       var _this = this;
 
-      this.addRole(this.form).then(function () {
-        _this.alert_role = true; //AKTIFKAN ALERT JIKA BERHASIL
-
+      this.form.post('/api/role').then(function (response) {
+        console.log(response);
         setTimeout(function () {
-          //BEBERAPA DETIK KEMUDIAN, SET DEFAULT ROLE USER
-          _this.form.clear(); //MATIKAN ALERT
-
+          _this.form.clear();
 
           _this.alert_role = false;
         }, 1000);
-      });
+      })["catch"](function (error) {});
     }
   }),
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(["errors"], {
@@ -7236,19 +7233,33 @@ var actions = {
     return new Promise(function (resolve, reject) {
       commit('CLEAR_ERRORS', '', {
         root: true
-      }); //KIRIM PERMINTAAN KE BACKEND
-
-      _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].post("/role", payload).then(function (response) {
-        resolve(response.data);
-      })["catch"](function (error) {
-        //APABILA TERJADI ERROR VALIDASI
-        if (error.response.status == 422) {
-          //SET ERRORNYA AGAR DAPAT DITAMPILKAN
-          commit('SET_ERRORS', error.response.data.errors, {
-            root: true
-          });
-        }
       });
+
+      if (payload.status == 200) {
+        resolve(payload.data);
+      } else {
+        commit('SET_ERRORS', payload.data.message, {
+          root: true
+        });
+      } //KIRIM PERMINTAAN KE BACKEND
+      // payload.post('/role')
+      // .then((response) => {
+      //     resolve(response.data)
+      // })
+      // .catch((error) => {
+      // })
+      // $axios.post(`/role`, payload)
+      // .then((response) => {
+      //     resolve(response.data)
+      // })
+      // .catch((error) => {
+      //     //APABILA TERJADI ERROR VALIDASI
+      //     if (error.response.status == 422) {
+      //         //SET ERRORNYA AGAR DAPAT DITAMPILKAN
+      //         commit('SET_ERRORS', error.response.data.errors, { root: true })
+      //     }
+      // })
+
     });
   }
 };

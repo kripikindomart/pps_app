@@ -104,26 +104,31 @@ export default {
         ...mapActions("user", [
            "getRoles",
            "getAllPermission",
-           "addRole"
+           "addRole",
+
+           
     ]),
        addData(){
-          this.addRole(this.form).then(() => {
-            
-            this.alert_role = true; //AKTIFKAN ALERT JIKA BERHASIL
+        this.form.post('/api/role')
+        .then((response) => {
+            console.log(response)
             setTimeout(() => {
-            //BEBERAPA DETIK KEMUDIAN, SET DEFAULT ROLE USER
-            this.form.clear()
-            //MATIKAN ALERT
-            this.alert_role = false;
+                this.form.clear()
+                this.alert_role = false;
             }, 1000);
-        });
+            
+        })
+        .catch((error) => {
+            
+        })
        }
    },
    computed: {
     ...mapState(["errors"], { errors: (state) => state.errors }), //ME-LOAD STATE ERRORS
     ...mapState("user", {
       roles: (state) => state.roles, //ME-LOAD STATE ROLES
-    }),
+
+    })
   },
    created(){
        this.getRoles();

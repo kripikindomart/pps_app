@@ -153,18 +153,30 @@ const actions = {
     addRole({ commit }, payload) {
         return new Promise((resolve, reject) => {
             commit('CLEAR_ERRORS', '', {root: true})
+           if(payload.status == 200) {
+                resolve(payload.data)
+           } else {
+            commit('SET_ERRORS', payload.data.message, { root: true })
+           }
             //KIRIM PERMINTAAN KE BACKEND
-            $axios.post(`/role`, payload)
-            .then((response) => {
-                resolve(response.data)
-            })
-            .catch((error) => {
-                //APABILA TERJADI ERROR VALIDASI
-                if (error.response.status == 422) {
-                    //SET ERRORNYA AGAR DAPAT DITAMPILKAN
-                    commit('SET_ERRORS', error.response.data.errors, { root: true })
-                }
-            })
+            // payload.post('/role')
+            // .then((response) => {
+            //     resolve(response.data)
+            // })
+            // .catch((error) => {
+
+            // })
+            // $axios.post(`/role`, payload)
+            // .then((response) => {
+            //     resolve(response.data)
+            // })
+            // .catch((error) => {
+            //     //APABILA TERJADI ERROR VALIDASI
+            //     if (error.response.status == 422) {
+            //         //SET ERRORNYA AGAR DAPAT DITAMPILKAN
+            //         commit('SET_ERRORS', error.response.data.errors, { root: true })
+            //     }
+            // })
         })
     },
 
